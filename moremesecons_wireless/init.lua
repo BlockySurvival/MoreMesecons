@@ -254,7 +254,16 @@ function wireless_effector_off(pos)
 		return
 	end
 
-<<<<<<< HEAD
+	local network = wireless[wls.owner][wls.channel]
+	network.sources[wls.id] = nil
+	if not next(network.sources) then
+		deactivate_network(wls.owner, wls.channel)
+	else
+		-- There is another source in the network. Turn this wireless into
+		-- a receptor.
+		mesecon.receptor_on(pos)
+	end
+
 	minetest.swap_node(pos, {name = "moremesecons_wireless:wireless_off"})
 	for i, wl_pos in ipairs(wireless[owner][channel]) do
 		if i ~= id then
@@ -266,16 +275,6 @@ function wireless_effector_off(pos)
 				minetest.after(0, remove_wireless, wl_pos)
 			end
 		end
-=======
-	local network = wireless[wls.owner][wls.channel]
-	network.sources[wls.id] = nil
-	if not next(network.sources) then
-		deactivate_network(wls.owner, wls.channel)
-	else
-		-- There is another source in the network. Turn this wireless into
-		-- a receptor.
-		mesecon.receptor_on(pos)
->>>>>>> 7ba7a5cceb2e56c9f9f61ac0e806983da26a4483
 	end
 
 	update_mod_storage()
